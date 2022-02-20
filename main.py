@@ -1,5 +1,6 @@
 import os
 import csv
+# import random
 
 class Person:
   def __init__(self, first_name, last_name, number):
@@ -19,24 +20,28 @@ def read_file(file_path):
             text += lines[i] + "\n"
     return text
 
-# def read_csv(csv_path):
-#     with open(csv_path) as csv_file:
-#         csv_reader = csv.reader(csv_file, delimiter=',')
-#         line_count = 0
-#         for row in csv_reader:
-#             if line_count == 0:
-#                 print(f'Column names are {", ".join(row)}')
-#                 line_count += 1
-#             else:
-#                 print(f'\t{row[0]} works in the {row[1]} department, and was born in {row[2]}.')
-#                 line_count += 1
-#         print(f'Processed {line_count} lines.')
+def read_csv(csv_path):
+    people = []
+    with open(csv_path) as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        line_count = 0
+        for row in csv_reader:
+            if line_count != 0:
+                people.append(Person(row[0], row[1], row[2]))
+            line_count += 1
+    return people
 
+def message_all(people):
+    for person in people:
+        send_message(person.number, person.message)
+
+def make_message(people):
+    for person in people:
+        person.message = person.first_name.lower() + "!! " + read_file('sample.txt')
+    
 def send_message(phone_number, message):
     os.system('osascript send.applescript {} "{}"'.format(phone_number, message))
 
-people = []
-
-print('lol')
-send_message('9794505910', read_file('sample.txt'))
-        
+people = read_csv('sample.csv')
+make_message(people)
+message_all(people)
