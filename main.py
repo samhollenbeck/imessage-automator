@@ -33,14 +33,18 @@ def read_csv(csv_path):
 
 def message_all(people):
     for person in people:
-        send_message(person.number, person.message)
+        sendText(person.number, person.message)
 
 def make_message(people):
     for person in people:
         person.message = person.first_name.lower() + "!! " + read_file('sample.txt')
     
-def send_message(phone_number, message):
-    os.system('osascript send.applescript {} "{}"'.format(phone_number, message))
+def sendText(phone_number, message):
+    os.system('osascript sendText.applescript {} "{}"'.format(phone_number, message))
+
+def sendImage(phone_number, imagePath):
+    os.system('osascript sendImage.applescript {} "{}"'.format(phone_number, imagePath))
+
 
 people = read_csv('sample.csv')
 make_message(people)
